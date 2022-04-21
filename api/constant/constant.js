@@ -4,4 +4,5 @@ module.exports = {
     SERVER_KEY: "key=AAAAGJpk9ek:APA91bG9boEapElinSrUhSGGa1IF9BX9zr2pIVWt6r0sObCBmsarE4yGlhbqOwOremfkhHhAqyrU8jvfw5uSWIfo0OrdiUiHgLYp3OpNeRqEbb3kGca-gd76wlVzRUnYj1zc6SlQg5V2",
     JWT_KEY: "STOCKUPDATE",
     API_KEY: "0SPT4KSRSF77A5CO",
+    NEW_API_KEY : '2612b25919034a215a48c7bef946fac5',
 };

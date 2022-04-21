@@ -110,7 +110,7 @@ exports.sendOtp = async(req, res) => {
                 mobile:req.body.mobile,
                 otp,
             });
-            const users = await User.updateUser(user)
+            const users = await User.updateOtp(user)
             if(users[0].affectedRows) {
                 res.status(200).json({
                     error:false,

@@ -19,12 +19,16 @@ User.insertUser = ({username,mobile,otp,email,password}) => {
 User.signup = ({mobile,otp}) => {
     return sql.execute("INSERT INTO "+userTbl+" (mobile,otp) VALUES (?,?)",[mobile,otp]);
 };
-User.updateUser = ({mobile,otp}) => {
+User.updateOtp = ({mobile,otp}) => {
     const query = "UPDATE "+userTbl+" SET otp = "+otp+" WHERE mobile = "+mobile;
     return sql.execute(query);
 };
 User.checkUser = ({mobile}) => {
     const query = "SELECT * FROM "+userTbl+" WHERE mobile = '"+mobile+"'";
+    return sql.execute(query);
+};
+User.updateUser = ({username,email,password,mobile}) => {
+    const query = "UPDATE "+userTbl+" SET username = '"+username+"',email = '"+email+"',password = '"+password+"' WHERE mobile = "+mobile;
     return sql.execute(query);
 };
 module.exports = User;

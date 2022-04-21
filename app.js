@@ -20,6 +20,8 @@ app.use('/uploads', express.static('uploads'));
 
 const UserRoutes = require('./api/routes/UserRoute');
 const SearchRoutes = require('./api/routes/SearchRoute');
+const ProfileRoutes = require('./api/routes/ProfileRoute');
+const DashboardRoutes = require('./api/routes/DasboardRoute');
 
 
 /* app.use((req,res,next)=>{
@@ -33,6 +35,8 @@ const SearchRoutes = require('./api/routes/SearchRoute');
 }) */
 app.use('/api/v1/user/',UserRoutes);
 app.use('/api/v1/search/',SearchRoutes);
+app.use('/api/v1/profile/',ProfileRoutes);
+app.use('/api/v1/dashboard/',DashboardRoutes);
 app.use((req,res,next)=>{
     const error = new Error("Not Found here");
     error.status = 404;

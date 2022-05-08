@@ -1,7 +1,9 @@
 const { default: axios } = require('axios');
 const { NEW_API_KEY } = require('../constant/constant');
 var request = require('request');
-
+const AlertMaster = require('../models/AlertMaster');
+const AlertSubMaster = require('../models/AlertSubMaster');
+const Alerts = require('../models/Alerts');
 
 exports.getDashboard = async (req, res) => {
     try {
@@ -52,7 +54,7 @@ exports.getDashboard = async (req, res) => {
 exports.getStockInformation = async (req, res) => {
     try {
         const stockName = req.body.stockName
-        let endpoints = "https://www.alphavantage.co/query?function=SMA&symbol="+stockName+"&interval=daily&time_period=10&series_type=open&apikey=0SPT4KSRSF77A5CO&https://www.alphavantage.co/query?function=SMA&symbol=IBM&interval=daily&time_period=10&series_type=open&apikey=0SPT4KSRSF77A5CO&datatype=json"
+        let endpoints = "https://www.alphavantage.co/query?function=SMA&symbol="+stockName+"&interval=daily&time_period=10&series_type=open&apikey=0SPT4KSRSF77A5CO&datatype=json"
         
         request.get({
             url: endpoints,
@@ -85,6 +87,83 @@ exports.getStockInformation = async (req, res) => {
                     message:error,
                 })
             }) */
+    } catch (error) {
+        res.status(400).json({
+            error:true,
+            message:error.message,
+        })
+    }
+};
+
+exports.getAlertType = async (req, res) => {
+    try {
+        const [alerts] = await AlertMaster.getAlertType();
+        if(alerts.length) {
+            res.status(200).json({
+                error:true,
+                data:alerts,
+            })
+        } else {
+            res.status(500).json({
+                error:true,
+                message:"alerts not available",
+            })
+        }
+    } catch (error) {
+        res.status(400).json({
+            error:true,
+            message:error.message,
+        })
+    }
+};
+exports.getSubAlertType = async (req, res) => {
+    try {
+        const alertTypeId = req.query.alertTypeId;
+        const [alerts] = await AlertSubMaster.getSubAlertType(alertTypeId);
+        if(alerts.length) {
+            res.status(200).json({
+                error:false,
+                data:alerts,
+            })
+        } else {
+            res.status(500).json({
+                error:true,
+                message:"alerts not available",
+            })
+        }
+    } catch (error) {
+        res.status(400).json({
+            error:true,
+            message:error.message,
+        })
+    }
+};
+exports.insertAlerts = async (req, res) => {
+    try {
+        if(!req.body) {
+            res.status(400).send({
+                message: "Body can not be empty!"
+            });
+        }
+        const alertData = new Alerts({
+            alert_type_id : req.body.alert_type_id,
+            alert_type_sub_id : req.body.alert_type_sub_id,
+            preference_data : req.body.preference_data,
+            remarks : req.body.remarks,
+        });
+        const alerts = await Alerts.insertAlert(alertData);
+        
+         if(alerts[0].affectedRows) {
+            res.status(201).json({
+                error:false,
+                data:"Alerts registered successfully",
+            })
+        } else {
+            res.status(400).json({
+                error:true,
+                message:"something went wrong!!!",
+            })
+        }
     } catch (error) {
         res.status(400).json({
             error:true,

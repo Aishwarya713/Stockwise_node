@@ -6,5 +6,8 @@ const DashboardControllers = require('../controllers/DashboardControllers');
 
 router.get('/getDashboard',checkAuth,DashboardControllers.getDashboard)
 router.post('/getStockInformation',checkAuth,DashboardControllers.getStockInformation)
+router.get('/getAlertType',checkAuth,DashboardControllers.getAlertType)
+router.get('/getSubAlertType',checkAuth,DashboardControllers.getSubAlertType)
+router.post('/storeAlertData',checkAuth,DashboardControllers.insertAlerts)
 
 module.exports = router; 
